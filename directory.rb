@@ -5,6 +5,10 @@ def input_students
   loop do
     puts "Enter a name"
     name = gets.strip
+    while name == ""
+      puts "You must enter a name"
+      name = gets.chomp
+    end
     puts "What is their cohort?"
     cohort = gets.strip
     if cohort == ""
