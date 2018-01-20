@@ -29,7 +29,7 @@ def print(students)
   counter = 0
   while counter < students.length
     students.each_with_index do |student, index|
-      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]}) Fave Hobby: #{student[:hobby]}"
+      puts "#{index + 1}. #{student[:name]} | Cohort: #{student[:cohort]}) | Fave Hobby: #{student[:hobby]}".center(30)
       counter += 1
     end
   end
