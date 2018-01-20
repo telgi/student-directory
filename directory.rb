@@ -12,14 +12,14 @@ def input_students
     puts "What is their main hobby?"
     hobby = gets.chomp
     puts "Name: #{name.to_sym} | Cohort: #{cohort.to_sym} | Hobby: #{hobby.to_sym}"
-    puts "Is all the information correct? 'Yes' or 'No'?"
-    correct = gets.chomp
-    if correct == 'Yes'
+    puts "Is all the information correct? 'y' or 'n'?"
+    correct = gets.chomp.downcase
+    if correct == 'y'
       students << {name: name.to_sym, cohort: cohort.to_sym, hobby: hobby.to_sym}
       puts "Now we have #{students.count} students"
-      puts "Do you wish to continue? 'Yes' or 'No'?"
-      continue = gets.chomp
-      if continue == 'Yes'
+      puts "Do you wish to continue? 'y' or 'n'?"
+      continue = gets.chomp.downcase
+      if continue == 'y'
         next
       else
         break
@@ -34,15 +34,17 @@ def print_header
   puts "The students of villains Academy"
   puts "______________"
 end
+
 def print(students)
-  counter = 0
-  while counter < students.length
-    students.each_with_index do |student, index|
-      puts "#{index + 1}. #{student[:name]} | Cohort: #{student[:cohort]} | Fave Hobby: #{student[:hobby]}"
-      counter += 1
+  puts "What cohort would you like to see?"
+  cohort_display = gets.chomp.to_sym
+  students.each_with_index do |student, index|
+    if cohort_display == student[:cohort]
+      puts "#{index + 1}. #{student[:name]} | Hobby: #{student[:hobby]}"
     end
   end
 end
+
 def print_footer(students)
   puts "Overall, we have #{students.count} great students"
 end
