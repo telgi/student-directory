@@ -1,41 +1,50 @@
 def input_students
-  puts "Please enter the names of the students".center(100)
-  puts "To finish, just hit return twice".center(100)
-  # create an empty array
+  puts "Welcome to the Student Directory of Villains Academy. Time to add some new recruits!"
   students = []
-  # get the first name
   loop do
-    puts "Enter a name".center(100)
+    puts "Enter a name"
     name = gets.chomp
-    puts "What is their main hobby?".center(100)
+    puts "What is their cohort?"
+    cohort = gets.chomp
+    if cohort == ""
+      cohort = :January
+    end
+    puts "What is their main hobby?"
     hobby = gets.chomp
-    students << {name: name, cohort: :november, hobby: hobby}
-    puts "Now we have #{students.count} students".center(100)
-    puts "Do you wish to continue? 'Yes' or 'No'?".center(100)
-    continue = gets.chomp
-    if continue == 'Yes'
-      next
+    puts "Name: #{name.to_sym} | Cohort: #{cohort.to_sym} | Hobby: #{hobby.to_sym}"
+    puts "Is all the information correct? 'Yes' or 'No'?"
+    correct = gets.chomp
+    if correct == 'Yes'
+      students << {name: name.to_sym, cohort: cohort.to_sym, hobby: hobby.to_sym}
+      puts "Now we have #{students.count} students"
+      puts "Do you wish to continue? 'Yes' or 'No'?"
+      continue = gets.chomp
+      if continue == 'Yes'
+        next
+      else
+        break
+      end
     else
-      break
+      next
     end
   end
   students
 end
 def print_header
-  puts "The students of villains Academy".center(100)
-  puts "______________".center(100)
+  puts "The students of villains Academy"
+  puts "______________"
 end
 def print(students)
   counter = 0
   while counter < students.length
     students.each_with_index do |student, index|
-      puts "#{index + 1}. #{student[:name]} | Cohort: #{student[:cohort]}) | Fave Hobby: #{student[:hobby]}".center(100)
+      puts "#{index + 1}. #{student[:name]} | Cohort: #{student[:cohort]} | Fave Hobby: #{student[:hobby]}"
       counter += 1
     end
   end
 end
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students".center(100)
+  puts "Overall, we have #{students.count} great students"
 end
 # nothing happens until we call the methods
 students = input_students
