@@ -20,10 +20,11 @@ def print_header
   puts "______________"
 end
 def print(students)
-  students.each_with_index do |student, index|
-    if student[:name].length < 12
-      puts "These are the students whose names are shorter than 12 characters:"
+  counter = 0
+  while counter < students.length
+    students.each_with_index do |student, index|
       puts "#{index + 1}. #{student[:name]} (#{student[:cohort]})"
+      counter += 1
     end
   end
 end
