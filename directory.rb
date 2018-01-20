@@ -4,9 +4,9 @@ def input_students
   students_string = "students"
   loop do
     puts "Enter a name"
-    name = gets.chomp
+    name = gets.strip
     puts "What is their cohort?"
-    cohort = gets.chomp
+    cohort = gets.strip
     if cohort == ""
       cohort = :January
     end
@@ -14,7 +14,7 @@ def input_students
     hobby = gets.chomp
     puts "Name: #{name.to_sym} | Cohort: #{cohort.to_sym} | Hobby: #{hobby.to_sym}"
     puts "Is all the information correct? 'y' or 'n'?"
-    correct = gets.chomp.downcase
+    correct = gets.strip.downcase
     if correct == 'y'
       students << {name: name.to_sym, cohort: cohort.to_sym, hobby: hobby.to_sym}
       if students.count == 1
@@ -22,7 +22,7 @@ def input_students
       end
       puts "Now we have #{students.count} #{students_string}"
       puts "Do you wish to continue? 'y' or 'n'?"
-      continue = gets.chomp.downcase
+      continue = gets.strip.downcase
       if continue == 'y'
         next
       else
@@ -41,7 +41,7 @@ end
 
 def print(students)
   puts "What cohort would you like to see?"
-  cohort_display = gets.chomp.to_sym
+  cohort_display = gets.strip.to_sym
   students.each_with_index do |student, index|
     if cohort_display == student[:cohort]
       puts "#{index + 1}. #{student[:name]} | Hobby: #{student[:hobby]}"
