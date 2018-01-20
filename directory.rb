@@ -1,6 +1,7 @@
 def input_students
   puts "Welcome to the Student Directory of Villains Academy. Time to add some new recruits!"
   students = []
+  students_string = "students"
   loop do
     puts "Enter a name"
     name = gets.chomp
@@ -16,7 +17,10 @@ def input_students
     correct = gets.chomp.downcase
     if correct == 'y'
       students << {name: name.to_sym, cohort: cohort.to_sym, hobby: hobby.to_sym}
-      puts "Now we have #{students.count} students"
+      if students.count == 1
+        students_string = "student"
+      end
+      puts "Now we have #{students.count} #{students_string}"
       puts "Do you wish to continue? 'y' or 'n'?"
       continue = gets.chomp.downcase
       if continue == 'y'
@@ -46,7 +50,11 @@ def print(students)
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students"
+  students_string = "students"
+  if students.count == 1
+    students_string = "student"
+  end
+  puts "Overall, we have #{students.count} great #{students_string}"
 end
 # nothing happens until we call the methods
 students = input_students
