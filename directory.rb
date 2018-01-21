@@ -1,18 +1,18 @@
 @students = []
 
-def interactive_menu
-  loop do
-    print_menu
-    process(gets.chomp)
-  end
-end
-
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list of students.csv"
   puts "4. Load the list from students.csv"
   puts "9. Exit" # because we'll be adding more items
+end
+
+def interactive_menu
+  loop do
+    print_menu
+    process(STDIN.gets.chomp)
+  end
 end
 
 def process(selection)
@@ -32,32 +32,26 @@ def process(selection)
   end
 end
 
-def show_students
-  print_header
-  print_students_list
-  print_footer
-end
-
 def input_students
   puts "Welcome to the Student Directory of Villains Academy. Time to add some new recruits!"
   students_string = "students"
   loop do
     puts "Enter a name"
-    name = gets.strip
+    name = STDIN.gets.strip
     while name == ""
       puts "You must enter a name"
-      name = gets.chomp
+      name = STDIN.gets.chomp
     end
     puts "What is their cohort?"
-    cohort = gets.strip
+    cohort = STDIN.gets.strip
     if cohort == ""
       cohort = :January
     end
     puts "What is their main hobby?"
-    hobby = gets.chomp
+    hobby = STDIN.gets.chomp
     puts "Name: #{name.to_sym} | Cohort: #{cohort.to_sym} | Hobby: #{hobby.to_sym}"
     puts "Is all the information correct? 'y' or 'n'?"
-    correct = gets.strip.downcase
+    correct = STDIN.gets.strip.downcase
     if correct == 'y'
       @students << {name: name.to_sym, cohort: cohort.to_sym, hobby: hobby.to_sym}
       if @students.count == 1
@@ -65,7 +59,7 @@ def input_students
       end
       puts "Now we have #{@students.count} #{students_string}"
       puts "Do you wish to continue? 'y' or 'n'?"
-      continue = gets.strip.downcase
+      continue = STDIN.gets.strip.downcase
       if continue == 'y'
         next
       else
@@ -77,14 +71,20 @@ def input_students
   end
 end
 
-def print_header
-  puts "The students of villains Academy"
-  puts "______________"
+def show_students
+  print_header
+  print_student_list
+  print_footer
 end
 
-def print_students_list
+def print_header
+  puts "The students of Villains Academy"
+  puts "-------------"
+end
+
+def print_student_list
   puts "What cohort would you like to see?"
-  cohort_display = gets.strip.to_sym
+  cohort_display = STDIN.gets.strip.to_sym
   @students.each_with_index do |student, index|
     if cohort_display == student[:cohort]
       puts "#{index + 1}. #{student[:name]} | Hobby: #{student[:hobby]}"
@@ -105,20 +105,33 @@ def save_students
   file = File.open("students.csv", "w")
   # iterate over the array of students
   @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
+    student_data = [student[:name], student[:cohort], student[:hobby]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+    name, cohort, hobby = line.chomp.split(',')
+    @students << {name: name.to_sym, cohort: cohort.to_sym, hobby: hobby.to_sym}
   end
   file.close
 end
 
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exists?(filename) # if it exists
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
+  end
+end
+
+try_load_students
 interactive_menu
