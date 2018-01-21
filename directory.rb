@@ -18,14 +18,19 @@ end
 def process(selection)
   case selection
   when "1"
+    puts "You have selected '1'. Time to add some new recruits!"
     input_students
   when "2"
+    puts "You have selected '2'. Let's see who's signed up!"
     show_students
   when "3"
+    puts "You have selected '3'. All new recruits have now been saved!"
     save_students
   when "4"
+    puts "You have selected '4'. All current recruits have now been loaded!"
     load_students
   when "9"
+    puts "You have selected '9'. Bye! See you when you have some new recruits!"
     exit
   else
     puts "I don't know what you mean - please try again..."
@@ -33,7 +38,6 @@ def process(selection)
 end
 
 def input_students
-  puts "Welcome to the Student Directory of Villains Academy. Time to add some new recruits!"
   students_string = "students"
   loop do
     puts "Enter a name"
@@ -53,7 +57,7 @@ def input_students
     puts "Is all the information correct? 'y' or 'n'?"
     correct = STDIN.gets.strip.downcase
     if correct == 'y'
-      @students << {name: name.to_sym, cohort: cohort.to_sym, hobby: hobby.to_sym}
+      add_students(name, cohort, hobby)
       if @students.count == 1
         students_string = "student"
       end
@@ -69,6 +73,10 @@ def input_students
       next
     end
   end
+end
+
+def add_students(name, cohort, hobby)
+  @students << {name: name.to_sym, cohort: cohort.to_sym, hobby: hobby.to_sym}
 end
 
 def show_students
@@ -116,7 +124,7 @@ def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort, hobby = line.chomp.split(',')
-    @students << {name: name.to_sym, cohort: cohort.to_sym, hobby: hobby.to_sym}
+    add_students(name, cohort, hobby)
   end
   file.close
 end
